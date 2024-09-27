@@ -21,6 +21,7 @@ import useProductsStore from "@/store/useProductsStore";
 import { useShallow } from "zustand/react/shallow";
 import FilterProductsDrawer from "./FilterProductsDrawer";
 import AlertConfirm from "./AlertConfirm";
+import Image from "next/image";
 
 const columns = [
   { key: "image", label: "Image" },
@@ -169,7 +170,7 @@ function TableProducts() {
               {(item) => (
                 <TableRow key={item?.id}>
                   <TableCell className="w-1/12">
-                    <img
+                    <Image
                       className="w-full"
                       src={item?.image}
                       alt={item?.name}

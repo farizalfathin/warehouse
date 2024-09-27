@@ -1,6 +1,6 @@
 import SuppliersType from "@/types/suppliers";
-import { formatCurrency } from "@/utils/format";
 import { Card, CardBody, Skeleton } from "@nextui-org/react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -31,7 +31,7 @@ export default function DetailSupplier() {
           <CardBody className="flex flex-col sm:flex-row gap-6 p-4">
             <div className="w-full sm:w-1/3 flex justify-center">
               <div className="w-full rounded-md bg-gray-100 shadow-md sm:shadow-lg">
-                <img
+                <Image
                   src={supplier?.logo}
                   alt={supplier?.name}
                   className="w-full rounded-md"

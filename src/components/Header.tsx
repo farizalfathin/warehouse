@@ -4,6 +4,7 @@ import { FiEdit, FiChevronDown, FiShare, FiPlusSquare } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { IconType } from "react-icons";
+import Image from "next/image";
 
 export default function Header({
   setOpenDrawer,
@@ -23,7 +24,7 @@ export default function Header({
         </div>
         <div className="flex justify-center items-center gap-1">
           <ButtonDropDown />
-          <img
+          <Image
             src="https://static.dc.com/sites/default/files/imce/2021/06-JUN/LGN412a_0273b_60ca6ed15ea545.23852660.jpg"
             alt="John Constantine"
             className="w-8 h-8 object-cover object-top rounded-full"

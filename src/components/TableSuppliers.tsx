@@ -19,6 +19,7 @@ import {
 import { useShallow } from "zustand/react/shallow";
 import useSuppliersStore from "@/store/useSuppliersStore";
 import AlertConfirm from "./AlertConfirm";
+import Image from "next/image";
 
 const columns = [
   { key: "logo", label: "Logo" },
@@ -139,7 +140,7 @@ function TableSuppliers() {
               {(item) => (
                 <TableRow key={item.id}>
                   <TableCell className="w-1/12">
-                    <img className="w-full" src={item.logo} alt={item.name} />
+                    <Image className="w-full" src={item.logo} alt={item.name} />
                   </TableCell>
                   <TableCell className="w-2/12">
                     <span className="w-full">{item.name}</span>
