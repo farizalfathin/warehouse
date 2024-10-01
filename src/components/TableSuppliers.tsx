@@ -20,6 +20,7 @@ import { useShallow } from "zustand/react/shallow";
 import useSuppliersStore from "@/store/useSuppliersStore";
 import AlertConfirm from "./AlertConfirm";
 import Image from "next/image";
+import { formatTextSlice } from "@/utils/format";
 
 const columns = [
   { key: "logo", label: "Logo" },
@@ -143,16 +144,22 @@ function TableSuppliers() {
                     <Image className="w-full" src={item.logo} alt={item.name} />
                   </TableCell>
                   <TableCell className="w-2/12">
-                    <span className="w-full">{item.name}</span>
+                    <span className="w-full">
+                      {formatTextSlice(item.name, 40)}
+                    </span>
                   </TableCell>
                   <TableCell className="w-2/12">
-                    <span className="w-full">{item.email}</span>
+                    <span className="w-full">
+                      {formatTextSlice(item.email, 40)}
+                    </span>
                   </TableCell>
                   <TableCell className="w-2/12">
                     <span className="w-full">{item.number_phone}</span>
                   </TableCell>
                   <TableCell className="w-3/12">
-                    <span className="w-full">{item.address}</span>
+                    <span className="w-full">
+                      {formatTextSlice(item.address, 40)}
+                    </span>
                   </TableCell>
                   <TableCell className="w-2/12">
                     <div className="flex items-start gap-2 text-lg text-black">

@@ -177,7 +177,9 @@ function TableProducts() {
                     />
                   </TableCell>
                   <TableCell className="w-2/12">
-                    <span className="w-full">{item?.name}</span>
+                    <span className="w-full">
+                      {formatTextSlice(item?.name, 40)}
+                    </span>
                   </TableCell>
                   <TableCell className="w-1/12">
                     <span className="w-full">
