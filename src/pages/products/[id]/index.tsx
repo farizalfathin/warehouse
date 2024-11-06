@@ -1,3 +1,5 @@
+import Layout from "@/components/Layout";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import ProductsType from "@/types/products";
 import { formatCurrency } from "@/utils/format";
 import { Card, CardBody, Skeleton } from "@nextui-org/react";
@@ -26,44 +28,48 @@ export default function DetailProduct() {
   }, [id]);
 
   return (
-    <div className="w-full py-6 px-4 sm:px-6 lg:px-8">
-      {product ? (
-        <Card className="w-full max-w-screen-md mx-auto bg-white shadow-md rounded-md">
-          <CardBody className="flex flex-col sm:flex-row gap-6 p-4">
-            <div className="w-full sm:w-1/3 flex justify-center">
-              <div className="w-full rounded-md bg-gray-100 shadow-md sm:shadow-lg">
-                <Image
-                  src={product?.image}
-                  alt={product?.name}
-                  className="w-full rounded-md"
-                />
-              </div>
-            </div>
-            <div className="w-full sm:w-2/3">
-              <div className="flex flex-col items-start py-4">
-                <h1 className="text-2xl text-black font-semibold">
-                  {product?.name}
-                  <span className="text-slate-500 text-sm">
-                    {" "}
-                    ( {product?.category} )
-                  </span>
-                </h1>
-                <p className="font-medium text-slate-500">
-                  Stock {product?.stock}
-                </p>
-                <h2 className="text-4xl text-black font-bold">
-                  {formatCurrency(Number(product?.price))}
-                </h2>
-                <div className="w-full h-[1.5px] bg-slate-300 my-3" />
-                <p>{product?.desc}</p>
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      ) : (
-        <SkeletonProduct />
-      )}
-    </div>
+    <ProtectedRoute>
+      <Layout>
+        <div className="w-full py-6 px-4 sm:px-6 lg:px-8">
+          {product ? (
+            <Card className="w-full max-w-screen-md mx-auto bg-white shadow-md rounded-md">
+              <CardBody className="flex flex-col sm:flex-row gap-6 p-4">
+                <div className="w-full sm:w-1/3 flex justify-center">
+                  <div className="w-full rounded-md bg-gray-100 shadow-md sm:shadow-lg">
+                    <Image
+                      src={product?.image}
+                      alt={product?.name}
+                      className="w-full rounded-md"
+                    />
+                  </div>
+                </div>
+                <div className="w-full sm:w-2/3">
+                  <div className="flex flex-col items-start py-4">
+                    <h1 className="text-2xl text-black font-semibold">
+                      {product?.name}
+                      <span className="text-slate-500 text-sm">
+                        {" "}
+                        ( {product?.category} )
+                      </span>
+                    </h1>
+                    <p className="font-medium text-slate-500">
+                      Stock {product?.stock}
+                    </p>
+                    <h2 className="text-4xl text-black font-bold">
+                      {formatCurrency(Number(product?.price))}
+                    </h2>
+                    <div className="w-full h-[1.5px] bg-slate-300 my-3" />
+                    <p>{product?.desc}</p>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+          ) : (
+            <SkeletonProduct />
+          )}
+        </div>
+      </Layout>
+    </ProtectedRoute>
   );
 }
 

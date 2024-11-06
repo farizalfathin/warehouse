@@ -141,7 +141,14 @@ function TableSuppliers() {
               {(item) => (
                 <TableRow key={item.id}>
                   <TableCell className="w-1/12">
-                    <Image className="w-full" src={item.logo} alt={item.name} />
+                    <Image
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="w-full"
+                      src={item.logo}
+                      alt={item.name}
+                    />
                   </TableCell>
                   <TableCell className="w-2/12">
                     <span className="w-full">

@@ -1,31 +1,41 @@
 import { IoMdLogOut } from "react-icons/io";
 import { PiListBold } from "react-icons/pi";
-import { FiEdit, FiChevronDown, FiShare, FiPlusSquare } from "react-icons/fi";
+import { FiChevronDown, FiShare, FiPlusSquare } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { IconType } from "react-icons";
 import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
+import SwitchTheme from "./SwitchTheme";
+import { FaUser } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Header({
   setOpenDrawer,
 }: {
   setOpenDrawer: () => void;
 }) {
+  const { user } = useAuth();
+
   return (
-    <header className="w-full shadow-md">
+    <header className="w-full shadow-md dark:bg-slate-800">
       <div className="flex justify-between items-center px-4 py-2">
         <div>
           <button
             type="button"
-            className="text-2xl p-1 rounded hover:bg-gray-200"
+            className="text-2xl p-1 rounded hover:bg-gray-200 dark:hover:bg-slate-700"
             onClick={setOpenDrawer}>
             <PiListBold />
           </button>
         </div>
         <div className="flex justify-center items-center gap-1">
-          <ButtonDropDown />
+          <SwitchTheme />
+          <ButtonDropDown username={user?.username || ""} />
           <Image
-            src="https://static.dc.com/sites/default/files/imce/2021/06-JUN/LGN412a_0273b_60ca6ed15ea545.23852660.jpg"
+            width={0}
+            height={0}
+            sizes="100vw"
+            src={user?.avatar_url || ""}
             alt="John Constantine"
             className="w-8 h-8 object-cover object-top rounded-full"
           />
@@ -35,7 +45,7 @@ export default function Header({
   );
 }
 
-const ButtonDropDown = () => {
+const ButtonDropDown = ({ username }: { username: string }) => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -43,8 +53,8 @@ const ButtonDropDown = () => {
       <motion.div animate={open ? "open" : "closed"} className="relative">
         <button
           onClick={() => setOpen((pv) => !pv)}
-          className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-200 transition-colors">
-          <span className="font-medium text-sm">John Constantine</span>
+          className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors">
+          <span className="font-medium text-sm">{username}</span>
           <motion.span variants={iconVariants}>
             <FiChevronDown />
           </motion.span>
@@ -55,7 +65,9 @@ const ButtonDropDown = () => {
           variants={wrapperVariants}
           style={{ originY: "top", translateX: "-60%" }}
           className="flex flex-col gap-2 p-2 rounded-lg bg-white shadow-xl absolute z-[1] top-[130%] left-[50%] w-48 overflow-hidden">
-          <Option Icon={FiEdit} text="Edit" />
+          <Link href="/user">
+            <Option Icon={FaUser} text="Profile" />
+          </Link>
           <Option Icon={FiPlusSquare} text="Duplicate" />
           <Option Icon={FiShare} text="Share" />
           <Option Icon={IoMdLogOut} text="Logout" />

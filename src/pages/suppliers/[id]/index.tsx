@@ -1,3 +1,5 @@
+import Layout from "@/components/Layout";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import SuppliersType from "@/types/suppliers";
 import { Card, CardBody, Skeleton } from "@nextui-org/react";
 import Image from "next/image";
@@ -25,41 +27,45 @@ export default function DetailSupplier() {
   }, [id]);
 
   return (
-    <div className="w-full py-6 px-4 sm:px-6 lg:px-8">
-      {supplier ? (
-        <Card className="w-full max-w-screen-md mx-auto bg-white shadow-md rounded-md">
-          <CardBody className="flex flex-col sm:flex-row gap-6 p-4">
-            <div className="w-full sm:w-1/3 flex justify-center">
-              <div className="w-full rounded-md bg-gray-100 shadow-md sm:shadow-lg">
-                <Image
-                  src={supplier?.logo}
-                  alt={supplier?.name}
-                  className="w-full rounded-md"
-                />
-              </div>
-            </div>
-            <div className="w-full sm:w-2/3">
-              <div className="flex flex-col items-start py-4">
-                <h1 className="text-2xl text-black font-semibold">
-                  {supplier?.name}
-                </h1>
-                <p className="text-lg font-medium text-slate-700">
-                  Number Phone : {supplier?.number_phone}
-                </p>
-                <p className="text-lg text-slate-700">
-                  Email : {supplier?.email}
-                </p>
-                <p className="text-lg text-slate-700">
-                  Alamat : {supplier?.address}
-                </p>
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      ) : (
-        <SkeletonSupplier />
-      )}
-    </div>
+    <ProtectedRoute>
+      <Layout>
+        <div className="w-full py-6 px-4 sm:px-6 lg:px-8">
+          {supplier ? (
+            <Card className="w-full max-w-screen-md mx-auto bg-white shadow-md rounded-md">
+              <CardBody className="flex flex-col sm:flex-row gap-6 p-4">
+                <div className="w-full sm:w-1/3 flex justify-center">
+                  <div className="w-full rounded-md bg-gray-100 shadow-md sm:shadow-lg">
+                    <Image
+                      src={supplier?.logo}
+                      alt={supplier?.name}
+                      className="w-full rounded-md"
+                    />
+                  </div>
+                </div>
+                <div className="w-full sm:w-2/3">
+                  <div className="flex flex-col items-start py-4">
+                    <h1 className="text-2xl text-black font-semibold">
+                      {supplier?.name}
+                    </h1>
+                    <p className="text-lg font-medium text-slate-700">
+                      Number Phone : {supplier?.number_phone}
+                    </p>
+                    <p className="text-lg text-slate-700">
+                      Email : {supplier?.email}
+                    </p>
+                    <p className="text-lg text-slate-700">
+                      Alamat : {supplier?.address}
+                    </p>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+          ) : (
+            <SkeletonSupplier />
+          )}
+        </div>
+      </Layout>
+    </ProtectedRoute>
   );
 }
 

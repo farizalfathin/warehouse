@@ -49,6 +49,7 @@ function TableProducts() {
         deleteProduct: state.deleteProduct,
       }))
     );
+  const [search, setSearch] = useState<string>("");
 
   const filterProductsByQueryParams = useMemo(() => {
     let query = "";
@@ -72,15 +73,25 @@ function TableProducts() {
     }
   }, [router.query.page]);
 
+  const handleSearch = (e: any) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredItem = useMemo(() => {
+    return products.filter((product) => {
+      product.name.toLowerCase().includes(search.toLowerCase());
+    });
+  }, [products, search]);
+
   const rowsPerPage = 8;
-  const pages = Math.ceil(products?.length / rowsPerPage);
+  const pages = Math.ceil(filteredItem?.length / rowsPerPage);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return products?.slice(start, end);
-  }, [page, products]);
+    return filteredItem?.slice(start, end);
+  }, [page, filteredItem]);
 
   const setQueryParams = (key: string, value: string | number) => {
     router.push({
@@ -128,7 +139,13 @@ function TableProducts() {
         <div className="mb-4">
           <h2 className="text-2xl font-semibold">Products Table</h2>
           <div className="w-full h-[1.5px] bg-slate-300 mt-3 mb-4" />
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full rounded-lg"
+              onChange={handleSearch}
+            />
             <FilterProductsDrawer
               setFilter={setQueryParams}
               resetFilter={removeAllQueryParams}
@@ -171,6 +188,9 @@ function TableProducts() {
                 <TableRow key={item?.id}>
                   <TableCell className="w-1/12">
                     <Image
+                      width={0}
+                      height={0}
+                      sizes="100vw"
                       className="w-full"
                       src={item?.image}
                       alt={item?.name}

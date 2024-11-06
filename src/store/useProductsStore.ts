@@ -1,3 +1,4 @@
+import { clientSupabase } from "@/config/supabase";
 import ProductsType from "@/types/products";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -31,15 +32,35 @@ const useProductsStore = create<ProductsState>()(
     },
     deleteProduct: async (id: number) => {
       try {
-        const response = await fetch(`/api/products/${id}`, {
-          method: "DELETE",
-        });
-        const { status } = await response.json();
+        const { data: getImage } = await clientSupabase
+          .from("tbl_products")
+          .select("image")
+          .eq("id", id)
+          .single();
 
-        if (status === "success") {
-          set((state) => ({
-            products: state.products.filter((product) => product.id !== id),
-          }));
+        if (getImage) {
+          const removeURLImage = String(getImage.image).replace(
+            "https://ftiuevfqtgwqzungcrhh.supabase.co/storage/v1/object/public/imageCatalog/products/",
+            ""
+          );
+
+          const { data: deleteImage } = await clientSupabase.storage
+            .from("imageCatalog")
+            .remove([`products/${removeURLImage}`]);
+
+          if (deleteImage) {
+            const { data } = await clientSupabase
+              .from("tbl_products")
+              .delete()
+              .eq("id", id)
+              .select();
+
+            if (data) {
+              set((state) => ({
+                products: state.products.filter((product) => product.id !== id),
+              }));
+            }
+          }
         }
       } catch (error: any) {
         console.error("Delete Product Error:", error);
